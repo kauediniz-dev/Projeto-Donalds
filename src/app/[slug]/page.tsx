@@ -4,20 +4,21 @@ import { getRestaurantBySlug } from "@/data/get-restaurant-by-slug";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import ConsumptionMethodOption from "./components/consumption-method-option";
+import { db } from "@/lib/prisma";
 
 interface RestaurantPageProps {
-  params: {
-    slug: string;
-  };
+  params: Promise<{
+    slug: string
+  }>;
 }
 
 const RestaurantPage = async ({ params }: RestaurantPageProps) => {
-  const { slug } = params;
+  const { slug } = await params;
 
-  const restaurant = await getRestaurantBySlug(slug);
+  const restaurant = await db.restaurant.findUnique({ where: { slug } });
 
   if (!restaurant) {
-    notFound();
+   return notFound();
   }
 
   return (
@@ -39,18 +40,22 @@ const RestaurantPage = async ({ params }: RestaurantPageProps) => {
           praticidade e sabor em cada detalhe
         </p>
       </div>
+
       <div className="pt-14 grid grid-cols-2 gap-4">
         <ConsumptionMethodOption
-            buttonText="Para comer aqui"
-            imageUrl="/dine_in.png"
-            imageAlt="Comer aqui"
-            option="DINE_IN"
+          slug={slug}
+          buttonText="Para comer aqui"
+          imageUrl="/dine_in.png"
+          imageAlt="Comer aqui"
+          option="DINE_IN"
         />
+
         <ConsumptionMethodOption
-            buttonText="Para levar"
-            imageUrl="/take_way.png"
-            imageAlt="Para levar"
-            option="TAKEWAY"
+          slug={slug}
+          buttonText="Para levar"
+          imageUrl="/take_way.png"
+          imageAlt="Para levar"
+          option="TAKEWAY"
         />
       </div>
     </div>

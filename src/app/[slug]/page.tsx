@@ -1,24 +1,23 @@
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { getRestaurantBySlug } from "@/data/get-restaurant-by-slug";
 import Image from "next/image";
 import { notFound } from "next/navigation";
+
+import { getRestaurantBySlug } from "@/data/get-restaurant-by-slug";
+
 import ConsumptionMethodOption from "./components/consumption-method-option";
-import { db } from "@/lib/prisma";
 
 interface RestaurantPageProps {
   params: Promise<{
-    slug: string
+    slug: string;
   }>;
 }
 
 const RestaurantPage = async ({ params }: RestaurantPageProps) => {
   const { slug } = await params;
 
-  const restaurant = await db.restaurant.findUnique({ where: { slug } });
+  const restaurant = await getRestaurantBySlug(slug);
 
   if (!restaurant) {
-   return notFound();
+    return notFound();
   }
 
   return (

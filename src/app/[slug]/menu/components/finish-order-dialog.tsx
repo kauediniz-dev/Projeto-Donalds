@@ -29,7 +29,7 @@ const formSchema = z.object({
 
 type formSchema = z.infer<typeof formSchema>;
 
-// SERVER ACTIONS
+// SERVER ACTIONS - rota de API - vai criar o pedido
 // são funções que são executadas no servidor, mas podem ser chamadas de client components
 
 interface FinishOrderDialogProrps {

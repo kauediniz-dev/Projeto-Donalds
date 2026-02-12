@@ -1,0 +1,5 @@
+{
+  "extends": ["next/core-web-vitals"],
+  "plugins": ["simple-import-sort", "unused-imports"],
+  "ignorePatterns": ["node_modules", ".next", "dist"]
+}

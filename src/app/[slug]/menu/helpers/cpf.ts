@@ -1,3 +1,7 @@
+export const removeCpfPoctuation = (cpf: string): string => {
+  return cpf.replace(/[\.\-]+/g, "");
+};
+
 export function isValidCPF(cpf: string): boolean {
   // 1. Remove caracteres não numéricos
   const cpfLimpo = cpf.replace(/[^\d]+/g, "");

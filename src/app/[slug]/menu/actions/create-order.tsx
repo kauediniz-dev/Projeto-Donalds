@@ -68,5 +68,5 @@ export const createOrder = async (input: createOrderInput) => {
             },
         },
     });
-    redirect(`/${input.slug}/orders`);
+    redirect(`/${input.slug}/orders?cpf=${removeCpfPoctuation(input.customerCpf)}`);
 }

@@ -36,7 +36,7 @@ const formSchema = z.object({
     cpf: z.string().trim().min(1).refine((value) => isValidCPF(value), { message: "CPF inválido" }),
 });
 
-type formSchema = z.infer<typeof formSchema>;
+type FormSchema = z.infer<typeof formSchema>;
 
 // SERVER ACTIONS - rota de API - vai criar o pedido
 // são funções que são executadas no servidor, mas podem ser chamadas de client components
@@ -51,15 +51,14 @@ const FinishOrderDialog = ({ open, onOpenChange }: FinishOrderDialogProrps) => {
     const { products } = useContext(CartContext);
     const searchParams = useSearchParams();
     const [isPending, startTransition] = useTransition();
-    const form = useForm<formSchema>({
+    const form = useForm<FormSchema>({
         resolver: zodResolver(formSchema),
         defaultValues: {
             name: "",
             cpf: "",
         },
-        shouldUnregister: true,
     })
-    const onSubmit = async (data: formSchema) => {
+    const onSubmit = async (data: FormSchema) => {
         try {
             const consumptionMethod = searchParams.get("consumptionMethod") as ConsumptionMethod;
             startTransition(async () => {

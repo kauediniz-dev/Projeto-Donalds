@@ -2,8 +2,8 @@
 
 import { db } from "@/lib/prisma";
 import { ConsumptionMethod, Order, OrderStatus } from "@prisma/client";
-import { da } from "zod/v4/locales";
 import { removeCpfPoctuation } from "../helpers/cpf";
+import { redirect } from "next/navigation";
 
 
 interface createOrderInput {
@@ -48,25 +48,25 @@ export const createOrder = async (input: createOrderInput) => {
         }
     })
 
+    const total = productsWithPricesQuantities.reduce(
+        (acc, product) => acc + product.price * product.quantity,
+        0
+    );
+
     await db.order.create({
         data: {
-            status: "PENDING",
+            status: OrderStatus.PENDING,
             customerName: input.customerName,
             customerCpf: removeCpfPoctuation(input.customerCpf),
             consumptionMethod: input.consumptionMethod,
             restaurantId: restaurant.id,
-            total: 0, // por enquanto
+            total,
             orderProducts: {
                 createMany: {
-                    data: input.products.map((product) => ({
-                        productId: product.id,
-                        quantity: product.quantity,
-                        price: produceWithPrices.find(
-                            (p) => p.id === product.id
-                        )!.price
-                    }))
-                }
-            }
-        }
-    })
+                    data: productsWithPricesQuantities,
+                },
+            },
+        },
+    });
+    redirect(`/${input.slug}/orders`);
 }

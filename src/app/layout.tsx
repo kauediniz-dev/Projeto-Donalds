@@ -1,3 +1,4 @@
+// todo o código relacionado a layout, como providers, fontes, etc, deve ficar aqui
 import "./globals.css";
 
 import type { Metadata } from "next";

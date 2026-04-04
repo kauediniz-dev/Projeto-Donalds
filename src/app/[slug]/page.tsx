@@ -11,10 +11,10 @@ interface RestaurantPageProps {
   }>;
 }
 
-const RestaurantPage = async ({ params }: RestaurantPageProps) => {
+const RestaurantPage = async ({ params }: RestaurantPageProps) => { // o slug é o identificador do restaurante, que é passado na url, e é usado para buscar as informações do restaurante no banco de dados
   const { slug } = await params;
 
-  const restaurant = await getRestaurantBySlug(slug);
+  const restaurant = await getRestaurantBySlug(slug); // busca as informações do restaurante no banco de dados, usando o slug como identificador
 
   if (!restaurant) {
     return notFound();
@@ -41,7 +41,7 @@ const RestaurantPage = async ({ params }: RestaurantPageProps) => {
       </div>
 
       <div className="pt-14 grid grid-cols-2 gap-4">
-        <ConsumptionMethodOption
+        <ConsumptionMethodOption // o slug é passado para o componente de opção de consumo, para que ele possa redirecionar para a página de menu do restaurante, passando o slug como parâmetro
           slug={slug}
           buttonText="Para comer aqui"
           imageUrl="/dine_in.png"

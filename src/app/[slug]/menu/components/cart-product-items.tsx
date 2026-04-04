@@ -1,18 +1,16 @@
 import { ChevronLeftIcon, ChevronRightIcon, TrashIcon } from "lucide-react";
 import Image from "next/image";
 import { useContext } from "react";
-
 import { Button } from "@/components/ui/button";
 import { formatCurrent } from "@/helpers/format-current";
-
 import { CartContext, CartProduct } from "../contexts/cart";
 
-interface CartProductItemsProps {
-    product: CartProduct;
+interface CartProductItemsProps { // a interface CartProductItemsProps define a estrutura dos props que o componente CartProductItems espera receber, que inclui um objeto product do tipo CartProduct, representando as informações de um produto específico adicionado à sacola de compras, como nome, preço, imagem e quantidade, permitindo que o componente exiba corretamente essas informações para o usuário.
+    product: CartProduct; // o prop product é do tipo CartProduct, que é uma interface que define as propriedades de um produto no carrinho de compras, incluindo id, name, price, imageUrl e quantity, permitindo que o componente CartProductItems acesse e exiba essas informações para o usuário.
 }
 
-const CartProductItems = ({ product }: CartProductItemsProps) => {
-    const { decreaseProductQuantity, increaseProductQuantity, removeProduct } = useContext(CartContext);
+const CartProductItems = ({ product }: CartProductItemsProps) => { // o componente CartProductItems é responsável por exibir as informações de um produto específico que foi adicionado à sacola de compras, incluindo a imagem, nome, preço e quantidade do produto, além de fornecer botões para aumentar ou diminuir a quantidade do produto e um botão para remover o produto da sacola.
+    const { decreaseProductQuantity, increaseProductQuantity, removeProduct } = useContext(CartContext); // useContext é um hook do React que permite acessar o contexto do carrinho de compras, que contém as funções decreaseProductQuantity, increaseProductQuantity e removeProduct.
     return (
         <div className="flex items-center justify-between">
             {/* ESQUERDA */}

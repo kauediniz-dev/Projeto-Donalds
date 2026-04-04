@@ -7,8 +7,8 @@ import RestaurantCategories from "./components/categories";
 import RestaurantHeader from "./components/header";
 
 interface RestaurantMenuPageProps {
-    params: Promise<{ slug: string }>;
-    searchParams: Promise<{ consumptionMethod: string }>
+    params: Promise<{ slug: string }>; //
+    searchParams: Promise<{ consumptionMethod: string }> // os parâmetros de busca são os parâmetros que são passados na url, como por exemplo, o método de consumo, que é passado como parâmetro na url quando o usuário clica em uma das opções de consumo, e é usado para filtrar os produtos do restaurante, mostrando apenas os produtos que estão disponíveis para o método de consumo selecionado pelo usuário
 }
 
 const isConsumptionMethodValid = (consumptionMethod: string) => {

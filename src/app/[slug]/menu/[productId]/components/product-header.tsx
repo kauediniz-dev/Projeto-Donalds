@@ -11,8 +11,8 @@ interface ProductHeaderProps {
 }
 
 const ProductHeader = ({ product }: ProductHeaderProps) => {
-       const router = useRouter();
-       const handleBackClick = () => router.back();
+       const router = useRouter(); // a função useRouter() do Next.js é usada para navegar entre as páginas da aplicação
+       const handleBackClick = () => router.back(); // a função handleBackClick é usada para voltar para a página anterior, usando a função router.back() do Next.js
        return (
               <div className="relative min-h-[300px] w-full">
                      <Button

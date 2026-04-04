@@ -13,7 +13,7 @@ interface RestaurantHeaderProps {
 
 const RestaurantHeader = ({ restaurant }: RestaurantHeaderProps) => {
   const router = useRouter();
-  const handleBackClick = () => router.back();
+  const handleBackClick = () => router.back(); // a função handleBackClick é usada para voltar para a página anterior, usando a função router.back() do Next.js, que é uma função de navegação que volta para a página anterior na pilha de navegação do navegador
   return (
     <div className="w-full relative h-[250px]">
       <Button

@@ -20,8 +20,8 @@ interface ProductDetailsProps {
 }
 
 const ProductDetails = ({ product }: ProductDetailsProps) => {
-    const { toggleCart, addProduct } = useContext(CartContext);
-    const [quantity, setQuantity] = useState<number>(1);
+    const { toggleCart, addProduct } = useContext(CartContext); // requisito 1: o contexto CartContext é usado para acessar as funções de manipulação do carrinho de compras, como toggleCart e addProduct
+    const [quantity, setQuantity] = useState<number>(1); // requisito 1: a quantidade inicial do produto é definida como 1, usando o hook useState do React, para que o usuário possa aumentar ou diminuir a quantidade do produto antes de adicioná-lo à sacola, e a quantidade é passada como parâmetro para a função addProduct, para que a quantidade correta do produto seja adicionada à sacola quando o usuário clicar no botão "Adicionar à Sacola"
     const handleDecreaseQuantity = () => {
         setQuantity((prev) => {
             if (prev == 1) return 1;

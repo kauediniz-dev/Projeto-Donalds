@@ -23,14 +23,14 @@ model Restaurant {
   menuCategory   MenuCategory[]
   products       Product[]
   orders         Order[]
-  createAt       DateTime       @default(now())
+  createAt       DateTime       @default(now()) // Data de criação do restaurante
   updatedAt      DateTime       @updatedAt
 }
 
 model MenuCategory {
   id           String     @id @default(uuid())
   name         String
-  restaurant   Restaurant @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
+  restaurant   Restaurant @relation(fields: [restaurantId], references: [id], onDelete: Cascade) // Define a relação com o restaurante, usando restaurantId como chave estrangeira
   restaurantId String
   products     Product[]
   createdAt    DateTime   @default(now())

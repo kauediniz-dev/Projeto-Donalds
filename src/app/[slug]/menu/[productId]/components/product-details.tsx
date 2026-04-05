@@ -42,7 +42,7 @@ const ProductDetails = ({ product }: ProductDetailsProps) => {
         <>
             <div className="relative z-50 rounded-t-3xl py-5 mt-[-1.5rem] p-5 flex-auto flex flex-col overflow-hidden">
                 <div className="flex-auto overflow-hidden">
-                    <div className="flex items-center px-5 gap-1.5">
+                    <div className="flex items-center px-2 gap-1.7">
                         <Image
                             src={product.restaurant.avatarImageUrl}
                             alt={product.restaurant.name}
@@ -50,14 +50,14 @@ const ProductDetails = ({ product }: ProductDetailsProps) => {
                             height={16}
                             className="rounded-full"
                         />
-                        <p className="text-xs text-muted-foreground ">
+                        <p className="text-xs text-muted-foreground px-1 ">
                             {product.restaurant.name}
                         </p>
                     </div>
 
-                    <h2 className="mt-1 text-xl font-bold">{product.name}</h2>
+                    <h2 className="mt-1 text-xl font-bold px-2">{product.name}</h2>
 
-                    <div className="flex items-center justify-between px-5 mt-3">
+                    <div className="flex items-center justify-between px-2 mt-3">
                         <h3 className="text-xl font-semibold">
                             {formatCurrent(product.price)}
                         </h3>

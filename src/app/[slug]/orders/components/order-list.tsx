@@ -1,8 +1,6 @@
-import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { formatCurrent } from "@/helpers/format-current";
 import { OrderStatus, Prisma } from "@prisma/client";
-import { ChevronLeftIcon, ScrollTextIcon } from "lucide-react";
 import Image from "next/image";
 
 interface OrderListProps {
@@ -33,15 +31,6 @@ const getStatusLabel = (status: OrderStatus) => {
 const OrderList = ({ orders }: OrderListProps) => {
     return (
         <div className="space-y-6 p-6">
-            <Button size="icon" variant="secondary" className="rounded-full">
-                <ChevronLeftIcon />
-            </Button>
-            <div className="flex items-center gap-3">
-                <ScrollTextIcon />
-                <h2 className="text-lg font-semibold">
-                    Meus Pedidos
-                </h2>
-            </div>
             {orders.map((order) => {
                 return (
                     <Card key={order.id}>

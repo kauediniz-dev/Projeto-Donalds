@@ -1,21 +1,33 @@
 import { PrismaClient } from "@prisma/client";
 
-declare global {
-   
-  var cachedPrisma: PrismaClient;
+/**
+ * Aqui criamos um "tipo global" para armazenar o Prisma.
+ * Isso evita recriar várias conexões no ambiente de desenvolvimento (Next.js).
+ */
+const globalForPrisma = globalThis as unknown as {
+  prisma: PrismaClient | undefined;
+};
+
+/**
+ * Se já existir uma instância do Prisma (em dev), reutiliza.
+ * Caso contrário, cria uma nova conexão com o banco.
+ */
+const prisma =
+  globalForPrisma.prisma ??
+  new PrismaClient({
+    log: ["query"], // opcional: mostra queries no terminal (útil em dev)
+  });
+
+/**
+ * Em desenvolvimento, salvamos a instância no global
+ * para evitar múltiplas conexões ao banco (hot reload do Next).
+ */
+if (process.env.NODE_ENV !== "production") {
+  globalForPrisma.prisma = prisma;
 }
 
-let prisma: PrismaClient; // variável para armazenar a instância do PrismaClient
-if (process.env.NODE_ENV === "production") { // se estiver em produção, cria uma nova instância do PrismaClient
-  prisma = new PrismaClient();
-} else { // se estiver em desenvolvimento, verifica se já existe uma instância do PrismaClient armazenada na variável global.cachedPrisma, se não existir, cria uma nova instância e armazena na variável global.cachedPrisma, e depois atribui a variável prisma para a instância armazenada na variável global.cachedPrisma
-  if (!global.cachedPrisma) {
-    global.cachedPrisma = new PrismaClient();
-  }
-  prisma = global.cachedPrisma;
-}
-
-// vou usar para chamar meu banco de dados
+/**
+ * Exportamos o Prisma como "db"
+ * 👉 padrão mais comum para usar no projeto inteiro
+ */
 export const db = prisma;
-
-// Esse código garante que vai ter pelo menos uma conexão com o banco de dados

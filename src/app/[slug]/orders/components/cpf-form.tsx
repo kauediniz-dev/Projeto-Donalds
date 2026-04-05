@@ -1,7 +1,6 @@
 "use client";
 import z from "zod";
 import { isValidCPF, removeCpfPoctuation } from "../../menu/helpers/cpf";
-import { resolve } from "path";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import {
@@ -12,7 +11,6 @@ import {
     DrawerFooter,
     DrawerHeader,
     DrawerTitle,
-    DrawerTrigger,
 } from "@/components/ui/drawer"
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";

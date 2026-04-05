@@ -1,5 +1,5 @@
 export const removeCpfPoctuation = (cpf: string): string => {
-  return cpf.replace(/[\.\-]+/g, "");
+  return cpf.replace(/[/./-]+/g, "");
 };
 
 export function isValidCPF(cpf: string): boolean {

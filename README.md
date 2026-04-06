@@ -1,41 +1,33 @@
-HEAD
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+<h1 align="center">Projeto Dev Plataforma de Delivery</h1>
 
-## Getting Started
+<p align="center">
+Aplicação inspirada em plataforma de delivery
+</p>
 
-First, run the development server:
+<p align="center">
+    <a href="#-tecnologias">Tecnologias</a>&nbsp;&nbsp; &nbsp;|&nbsp;&nbsp;&nbsp;
+    <a href="#-projeto">Projeto</a>&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;
+</p>
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+<br>
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+<p align="center">
+    <img alt="FSW-Donalds" src=".github/CapaRm.PNG" whidth="100%">
+</p>
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 👨🏿‍💻 Tecnologias
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Esse projeto foi desenvolvido com as seguintes tecnologias:
 
-## Learn More
+- Next
+- Prisma
+- Postgresql
+- JavaScript
+- TypeScript
+- React
+- Git e GitHub
 
-To learn more about Next.js, take a look at the following resources:
+## 💻 Projeto
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
-
-# Projeto-Donalds
-
-660643d9c442bc50972b714553034f4373c27484
+FSW-Donalds é uma aplicação web full stack inspirada em plataformas de delivery, desenvolvida com foco em performance e experiência do usuário.
+O sistema permite visualizar produtos, acessar menus dinâmicos, gerenciar pedidos e simular um fluxo completo de compra.

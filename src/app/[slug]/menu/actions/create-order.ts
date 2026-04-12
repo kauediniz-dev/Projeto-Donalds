@@ -3,7 +3,6 @@
 import { db } from "@/lib/prisma";
 import { ConsumptionMethod, OrderStatus } from "@prisma/client";
 import { removeCpfPoctuation } from "../helpers/cpf";
-import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 
 interface createOrderInput {
@@ -54,7 +53,7 @@ export const createOrder = async (input: createOrderInput) => {
     0,
   );
 
-  await db.order.create({
+  const order = await db.order.create({
     data: {
       status: OrderStatus.PENDING,
       customerName: input.customerName,
@@ -70,7 +69,9 @@ export const createOrder = async (input: createOrderInput) => {
     },
   });
   revalidatePath(`/${input.slug}/orders`); // revalida a página de pedidos do restaurante para que o novo pedido apareça na lista de pedidos sem precisar atualizar a página manualmente, garantindo que os dados exibidos estejam sempre atualizados.
-  redirect(
-    `/${input.slug}/orders?cpf=${removeCpfPoctuation(input.customerCpf)}`,
-  );
+  // redirect(
+  //   `/${input.slug}/orders?cpf=${removeCpfPoctuation(input.customerCpf)}`,
+  // );
+
+  return order;
 };

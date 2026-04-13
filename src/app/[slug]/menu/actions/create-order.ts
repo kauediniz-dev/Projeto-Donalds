@@ -30,7 +30,7 @@ export const createOrder = async (input: createOrderInput) => {
   const produceWithPrices = await db.product.findMany({
     where: {
       id: {
-        in: input.products.map((product) => product.id),
+        in: input.products.map((product) => product.id), // aqui estamos pegando os ids dos produtos que estão sendo pedidos para buscar os preços atualizados no banco de dados, garantindo que o valor total do pedido seja calculado corretamente com base nos preços atuais dos produtos.
       },
     },
   });

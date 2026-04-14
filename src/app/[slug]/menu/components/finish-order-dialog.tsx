@@ -77,7 +77,7 @@ const FinishOrderDialog = ({
                 "consumptionMethod",
             ) as ConsumptionMethod;
 
-            const order = await createOrder({
+            const order = await createOrder({ // aqui estamos criando o pedido no banco de dados usando a server action createOrder, que é responsável por criar o pedido com base nas informações fornecidas pelo usuário e nos produtos que estão no carrinho.
                 consumptionMethod,
                 customerCpf: data.cpf,
                 customerName: data.name,

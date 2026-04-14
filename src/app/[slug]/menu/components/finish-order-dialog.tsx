@@ -1,10 +1,14 @@
 "use client";
+
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { PatternFormat } from 'react-number-format'
-import { set, z } from "zod";
+import { PatternFormat } from "react-number-format";
+import { z } from "zod";
 import { useParams, useSearchParams } from "next/navigation";
-
+import { useContext, useState } from "react";
+import { loadStripe } from "@stripe/stripe-js";
+import { Loader2Icon } from "lucide-react";
+import { ConsumptionMethod } from "@prisma/client";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -16,53 +20,61 @@ import {
     DrawerHeader,
     DrawerTitle,
     DrawerTrigger,
-} from "@/components/ui/drawer"
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+} from "@/components/ui/drawer";
+import {
+    Form,
+    FormControl,
+    FormField,
+    FormItem,
+    FormLabel,
+    FormMessage,
+} from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 
 import { isValidCPF } from "../helpers/cpf";
-import { ConsumptionMethod } from "@prisma/client";
 import { createOrder } from "../actions/create-order";
-import { useContext, useState } from "react";
 import { CartContext } from "../contexts/cart";
-import { Loader2Icon } from "lucide-react";
 import { createStripeCheckout } from "../actions/create-stripe-checkout";
-import { loadStripe } from "@stripe/stripe-js";
-
-
 
 const formSchema = z.object({
     name: z.string().trim().min(1, { message: "O nome é obrigatório" }),
-    cpf: z.string().trim().min(1).refine((value) => isValidCPF(value), { message: "CPF inválido" }),
+    cpf: z
+        .string()
+        .trim()
+        .min(1, { message: "O CPF é obrigatório" })
+        .refine((value) => isValidCPF(value), { message: "CPF inválido" }),
 });
 
 type FormSchema = z.infer<typeof formSchema>;
 
-// SERVER ACTIONS - rota de API - vai criar o pedido
-// são funções que são executadas no servidor, mas podem ser chamadas de client components
-
-interface FinishOrderDialogProrps {
-    open: boolean
+interface FinishOrderDialogProps {
+    open: boolean;
     onOpenChange: (open: boolean) => void;
 }
 
-const FinishOrderDialog = ({ open, onOpenChange }: FinishOrderDialogProrps) => {
+const FinishOrderDialog = ({
+    open,
+    onOpenChange,
+}: FinishOrderDialogProps) => {
     const { slug } = useParams<{ slug: string }>();
     const { products } = useContext(CartContext);
     const searchParams = useSearchParams();
     const [isLoading, setIsLoading] = useState(false);
+
     const form = useForm<FormSchema>({
         resolver: zodResolver(formSchema),
         defaultValues: {
             name: "",
             cpf: "",
         },
-    })
+    });
+
     const onSubmit = async (data: FormSchema) => {
         try {
             setIsLoading(true);
+
             const consumptionMethod = searchParams.get(
-                "consumptionMethod"
+                "consumptionMethod",
             ) as ConsumptionMethod;
 
             const order = await createOrder({
@@ -71,32 +83,54 @@ const FinishOrderDialog = ({ open, onOpenChange }: FinishOrderDialogProrps) => {
                 customerName: data.name,
                 products,
                 slug,
-            })
-            const { sessionId } = await createStripeCheckout({ products, orderId: order.id, slug, consumptionMethod, cpf: data.cpf });
-            if (!process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY) return;
-            const stripe = await loadStripe(
-                process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY!
-            );
-            stripe?.redirectToCheckout({
-                sessionId: sessionId
             });
+
+            const { sessionId } = await createStripeCheckout({
+                products,
+                orderId: order.id,
+                slug,
+                consumptionMethod,
+                cpf: data.cpf,
+            });
+
+            const publicKey = process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY;
+
+            if (!publicKey) {
+                throw new Error("Chave pública do Stripe não encontrada.");
+            }
+
+            const stripe = await loadStripe(publicKey);
+
+            if (!stripe) {
+                throw new Error("Não foi possível inicializar o Stripe.");
+            }
+
+            const result = await stripe.redirectToCheckout({
+                sessionId,
+            });
+
+            if (result.error) {
+                throw new Error(result.error.message);
+            }
         } catch (error) {
-            console.error(error)
-        }
-        finally {
+            console.error("Erro ao finalizar pedido:", error);
+        } finally {
             setIsLoading(false);
         }
+    };
 
-    }
     return (
         <Drawer open={open} onOpenChange={onOpenChange}>
-            <DrawerTrigger asChild>
-            </DrawerTrigger>
+            <DrawerTrigger asChild></DrawerTrigger>
+
             <DrawerContent>
                 <DrawerHeader>
                     <DrawerTitle>Finalizar Pedido</DrawerTitle>
-                    <DrawerDescription>Insira suas informações abaixo para finalizar o seu pedido</DrawerDescription>
+                    <DrawerDescription>
+                        Insira suas informações abaixo para finalizar o seu pedido
+                    </DrawerDescription>
                 </DrawerHeader>
+
                 <div className="p-5">
                     <Form {...form}>
                         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
@@ -113,6 +147,7 @@ const FinishOrderDialog = ({ open, onOpenChange }: FinishOrderDialogProrps) => {
                                     </FormItem>
                                 )}
                             />
+
                             <FormField
                                 control={form.control}
                                 name="cpf"
@@ -142,6 +177,7 @@ const FinishOrderDialog = ({ open, onOpenChange }: FinishOrderDialogProrps) => {
                                     {isLoading && <Loader2Icon className="animate-spin" />}
                                     Finalizar
                                 </Button>
+
                                 <DrawerClose asChild>
                                     <Button className="w-full rounded-full" variant="outline">
                                         Cancelar
@@ -153,7 +189,7 @@ const FinishOrderDialog = ({ open, onOpenChange }: FinishOrderDialogProrps) => {
                 </div>
             </DrawerContent>
         </Drawer>
-    )
-}
+    );
+};
 
 export default FinishOrderDialog;

@@ -6,13 +6,8 @@ import { revalidatePath } from "next/cache";
 
 export async function POST(request: Request) {
   try {
-    console.log("=== WEBHOOK HIT ===");
-
     const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
     const secretKey = process.env.STRIPE_SECRET_KEY;
-
-    console.log("Webhook secret exists:", !!webhookSecret);
-    console.log("Stripe secret exists:", !!secretKey);
 
     if (!webhookSecret) {
       throw new Error("Missing STRIPE_WEBHOOK_SECRET");

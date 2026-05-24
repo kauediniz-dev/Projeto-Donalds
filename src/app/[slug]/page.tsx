@@ -21,7 +21,7 @@ const RestaurantPage = async ({ params }: RestaurantPageProps) => { // o slug é
   }
 
   return (
-    <div className="min-h-dvh max-h-dvh overflow-hidden flex flex-col items-center justify-center px-6 pt-24">
+    <div className="min-h-dvh flex flex-col items-center justify-center px-6 py-8">
       <div className="flex flex-col items-center gap-2">
         <Image
           src={restaurant.avatarImageUrl}
@@ -32,7 +32,7 @@ const RestaurantPage = async ({ params }: RestaurantPageProps) => { // o slug é
         <h2 className="font-semibold">{restaurant.name}</h2>
       </div>
 
-      <div className="p-24 text-center space-y-2">
+      <div className="py-10 text-center space-y-2">
         <h3 className="text-2xl font-semibold">Seja bem-vindo</h3>
         <p className="opacity-55">
           Escolha como prefere aproveitar sua refeição. Estamos oferecendo
@@ -40,7 +40,7 @@ const RestaurantPage = async ({ params }: RestaurantPageProps) => { // o slug é
         </p>
       </div>
 
-      <div className="pt-14 grid grid-cols-2 gap-4">
+      <div className="pt-8 grid grid-cols-2 gap-4">
         <ConsumptionMethodOption // o slug é passado para o componente de opção de consumo, para que ele possa redirecionar para a página de menu do restaurante, passando o slug como parâmetro
           slug={slug}
           buttonText="Para comer aqui"

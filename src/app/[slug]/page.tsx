@@ -21,7 +21,7 @@ const RestaurantPage = async ({ params }: RestaurantPageProps) => { // o slug é
   }
 
   return (
-    <div className="h-screen flex flex-col items-center justify-center px-6 pt-24">
+    <div className="min-h-dvh max-h-dvh overflow-hidden flex flex-col items-center justify-center px-6 pt-24">
       <div className="flex flex-col items-center gap-2">
         <Image
           src={restaurant.avatarImageUrl}
